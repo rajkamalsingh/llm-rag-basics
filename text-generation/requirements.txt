@@ -1,0 +1,3 @@
+transformers
+torch
+gradio  # optional: for a simple UI later
