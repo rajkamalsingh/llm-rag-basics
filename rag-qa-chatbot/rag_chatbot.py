@@ -4,7 +4,7 @@ import faiss
 import gradio as gr
 from openai import OpenAI
 
-client = OpenAI(api_key = "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")
+client = OpenAI(api_key = "key_here")
 
 
 #load ebedding model
