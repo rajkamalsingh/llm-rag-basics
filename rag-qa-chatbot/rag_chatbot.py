@@ -1,9 +1,11 @@
 import openai
-from sentence_traansformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 import faiss
 import gradio as gr
+from openai import OpenAI
 
-openai.api_key = ""
+client = OpenAI(api_key = "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")
+
 
 #load ebedding model
 embedder = SentenceTransformer("all-MiniLM-L6-V2")
@@ -33,7 +35,7 @@ def rag_answer(query):
 
     prpompt = f"Context:\n{retrieved}\n\nQuestion: {query}\nAnswer:"
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model = "gpt-3.5-turbo",
         messages = [
             {"role":"system", "content": "You are a helpful assistant."},
@@ -41,8 +43,9 @@ def rag_answer(query):
         ],
         temperature = 0.2
     )
-    return response['choices'][0]['message']['content'].strip()
+    answer = response.choices[0].message.content.strip()
+    return answer
 
 
 # Gradio interface
-gr.Interface(fn=rag_answer, inputs = "text", outputs="text").launch()
+gr.Interface(fn=rag_answer, inputs = "text", outputs="text").launch(share=True)
