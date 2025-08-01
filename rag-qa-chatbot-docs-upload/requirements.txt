@@ -1,0 +1,6 @@
+openai
+transformers
+sentence-transformers
+faiss-cpu
+gradio
+pymupdf
