@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 import faiss
 
 # set api keys
-openai.api_key = os.getenv("OPENAI_API_KEY", "your key here")
+openai.api_key = os.getenv("OPENAI_API_KEY", "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")
 
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -24,6 +24,8 @@ def load_document(file_path):
 
     else:
         raise ValueError("Unsupported file format. please upload .txt or .pdf")
+    print("Extracted text preview:", text[:500])
+    print("Document length:", len(text))
     return text
 
 # split text into chunks
@@ -60,9 +62,9 @@ def rag_answer(file, query):
     query_embedding = embedder.encode([query])
     D, I = index.search(query_embedding, k=3)
     retrieved = "\n".join([chunk_list[i] for i in I[0]])
-
+    print("Retrieved chunks:", retrieved)
     # generate answer with gpt-3.5
-    prompt = f"Context:\n{retrieved}\n\nQuestion: {query}\nAnswer:"
+    prompt = f"""You are a question-answering assistant. Use ONLY the information below to answer the question. If the answer is not in the context, say "Not found in document."Context:\n{retrieved}\n\nQuestion: {query}\nAnswer:"""
 
     from openai import OpenAI
     client = OpenAI(api_key = openai.api_key)
@@ -87,4 +89,4 @@ iface = gr.Interface(
 
 )
 
-iface.launch(shre=True)
+iface.launch(share=True)
