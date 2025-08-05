@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 import faiss
 
 # set api keys
-openai.api_key = os.getenv("OPENAI_API_KEY", "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")
+openai.api_key = os.getenv("OPENAI_API_KEY", "your key ")
 
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
