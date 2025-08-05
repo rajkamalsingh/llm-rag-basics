@@ -29,21 +29,27 @@ def load_document(file_path):
     return text
 
 # split text into chunks
-def chunk_text(text, chunk_size = 500, overlap= 50):
-    words = text.split()
+def chunk_text(text, chunk_size = 300, overlap= 50):
     chunks = []
     start = 0
-    while start <len(words):
-        end = start = chunk_size
-        chunk = " ".join(words[start:end])
-        chunks.append(chunk)
-        start += chunk_size-overlap
+    text_length = len(text)
+    while start < text_length:
+        end = min(start + chunk_size, text_length)
+        chunks.append(text[start:end])
+        start += chunk_size - overlap
 
     return chunks
 
 # build faiss index
 def build_index(chunks):
+    if len(chunks) == 0:
+        return "⚠️ No readable text found in the uploaded document."
+
+    print("Chunks count:", len(chunks))
+    print("First chunk preview:", chunks[0] if chunks else "No chunks")
     embeddings = embedder.encode(chunks)
+    if len(embeddings) == 0:
+        return "⚠️ Failed to generate embeddings for the document."
     dim = embeddings.shape[1]
     index = faiss.IndexFlatL2(dim)
     index.add(embeddings)
@@ -60,9 +66,13 @@ def rag_answer(file, query):
 
     # search for relevant chunks
     query_embedding = embedder.encode([query])
-    D, I = index.search(query_embedding, k=3)
-    retrieved = "\n".join([chunk_list[i] for i in I[0]])
-    print("Retrieved chunks:", retrieved)
+    D, I = index.search(query_embedding, k=min(3, len(chunks)))
+    retrieved = "\n".join([chunk_list[i] for i in I[0] if i < len(chunks)])
+    print("Retrieved chunks:", retrieved[:300])
+    if not retrieved.strip() and chunks:
+        retrieved = chunks[0]  # fallback to first chunk
+    #if not retrieved.strip():
+     #   return "⚠️ Could not find relevant text for this query."
     # generate answer with gpt-3.5
     prompt = f"""You are a question-answering assistant. Use ONLY the information below to answer the question. If the answer is not in the context, say "Not found in document."Context:\n{retrieved}\n\nQuestion: {query}\nAnswer:"""
 
