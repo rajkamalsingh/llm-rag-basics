@@ -6,7 +6,7 @@ from langchain.memory import ConversationBufferMemory
 from utils import process_pdf
 
 llm = ChatOpenAI(model_name="gpt-3.5-turbo",
-                 openai_api_key="")
+                 openai_api_key="key_here")
 # Global variables
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 rag_chain = None  # will hold the RAG pipeline
