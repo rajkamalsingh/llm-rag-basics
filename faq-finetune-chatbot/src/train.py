@@ -5,7 +5,8 @@ from utils import preprocess, tokenize_function, get_tokenizer
 def main():
     # load dataset
     dataset = load_dataset("farzanrahmani/chatbot-FAQ-queries")
-
+    #print(dataset)
+    #print(dataset['train'].column_names[:10])
     #preprocess dataset
     train_dataset = dataset["train"].map(preprocess)
 
