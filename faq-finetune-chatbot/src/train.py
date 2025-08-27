@@ -8,7 +8,7 @@ def main():
     #print(dataset)
     #print(dataset['train'].column_names[:10])
     #preprocess dataset
-    train_dataset = dataset["train"].map(preprocess)
+    train_dataset = dataset["train"].map(preprocess, load_from_cache_file=False)
 
     # Tokenizer and model
 
@@ -30,13 +30,13 @@ def main():
         per_device_train_batch_size= 4,
         num_train_epochs=3,
         save_strategy = "epoch",
-        looging_dir = "../logs",
+        logging_dir = "../logs",
         push_to_hub= False
 
     )
     trainer = Seq2SeqTrainer(
         model = model,
-        arg=training_args,
+        args =training_args,
         train_dataset= tokenized_dataset,
         tokenizer = tokenizer
     )
