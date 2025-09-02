@@ -25,11 +25,9 @@ def main():
     # training args
     training_args = Seq2SeqTrainingArguments(
         output_dir= "../faq_model",
-        evaluation_strategy = "epoch",
         learning_rate = 2e-5,
         per_device_train_batch_size= 4,
         num_train_epochs=3,
-        save_strategy = "epoch",
         logging_dir = "../logs",
         push_to_hub= False
 
