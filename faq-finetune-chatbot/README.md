@@ -40,7 +40,7 @@ This will:
 ## Key Files
 ### train.py
 - Loads dataset and applies preprocessing.
-- Sets up tokenizer & model (flan-t5-small).
+- Sets up tokenizer & model (**flan-t5-small**).
 - Defines training arguments and runs fine-tuning.
 - Saves the trained model.
 
@@ -56,3 +56,24 @@ This will:
 - Epochs: 3
 - Learning Rate: 2e-5
 - Max Seq Length: 128
+
+---
+## Training Output
+- Model checkpoints & final model: faq_model/
+- Training logs: logs/
+
+---
+
+## Next Steps (Scaling Up)
+- Replace placeholder answers with real answers from dataset.
+- Train with a larger model (e.g., flan-t5-base).
+- Experiment with more epochs & different learning rates.
+- Add evaluation metrics like **BLEU, ROUGE, or F1**.
+- Deploy the fine-tuned model via FastAPI or Gradio for interactive chatbot usage.
+
+---
+
+### Notes
+- Current version uses dummy placeholder answers.
+- For real chatbot usage, dataset should include actual FAQ answers.
+- Ensure GPU runtime (CUDA) for faster training.
