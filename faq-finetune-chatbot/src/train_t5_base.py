@@ -1,0 +1,50 @@
+from datasets import load_dataset
+from transformers import AutoModelForSeq2SeqLM, Seq2SeqTrainer, Seq2SeqTrainingArguments
+from utils import preprocess, tokenize_function, get_tokenizer
+
+def main():
+    # load dataset
+    dataset = load_dataset("farzanrahmani/chatbot-FAQ-queries")
+    #print(dataset)
+    #print(dataset['train'].column_names[:10])
+    #preprocess dataset
+    train_dataset = dataset["train"].map(preprocess, load_from_cache_file=False)
+
+    # Tokenizer and model
+
+    model_name = "google/flan-t5-base"
+    tokenizer = get_tokenizer(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+    # tokenize
+    tokenized_dataset = train_dataset.map(
+        lambda batch : tokenize_function(batch, tokenizer),
+        batched = True
+    )
+
+    # training args
+    training_args = Seq2SeqTrainingArguments(
+        output_dir= "../faq_model",
+        learning_rate = 3e-5,
+        per_device_train_batch_size= 2,
+        num_train_epochs=3,
+        logging_dir = "../logs",
+        predict_with_generate = True,
+        push_to_hub= False
+
+    )
+    trainer = Seq2SeqTrainer(
+        model = model,
+        args =training_args,
+        train_dataset= tokenized_dataset,
+        tokenizer = tokenizer
+    )
+
+    trainer.train()
+
+    #save model
+    trainer.save_model("../faq_model_base")
+
+
+if __name__ == "__main__":
+    main()
