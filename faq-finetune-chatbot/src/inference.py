@@ -2,7 +2,7 @@ from transformers import pipeline
 from utils import get_tokenizer
 
 def main():
-    model_dir="../faq_model"
+    model_dir="../faq_model_base"
     tokenizer = get_tokenizer()
 
     faq_pipe = pipeline("text2text-generation", model = model_dir, tokenizer = tokenizer)
