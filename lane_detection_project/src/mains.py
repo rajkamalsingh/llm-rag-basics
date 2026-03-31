@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from utils import region_of_interest, draw_lines
 
-cap = cv2.VideoCapture('../data/raw_rain.mp4')
+cap = cv2.VideoCapture('../data/raw_video.mp4')
 frame_count = 0
 while cap.isOpened():
     ret, frame = cap.read()

@@ -1,0 +1,11 @@
+# Ignore data and outputs
+data/
+outputs/
+
+# Ignore videos
+*.mp4
+*.avi
+
+# Ignore images (optional)
+*.jpg
+*.png
