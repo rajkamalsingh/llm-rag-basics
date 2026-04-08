@@ -2,7 +2,6 @@
 
 
 # Ignore videos
-*.mp4
-*.avi
+
 
 # Ignore images (optional)
