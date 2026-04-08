@@ -119,7 +119,7 @@ Classical computer vision techniques can perform well in controlled environments
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/lane-detection-project.git
+git clone https://github.com/rajkamalsingh/llm-rag-basics.git
 cd lane-detection-project
 ```
 ---
